@@ -22,6 +22,8 @@ portainer/data/
 
 # Node-RED credentials
 node-red/project/flows_cred.json
+node-red/project/node_modules/
+node-red/project/.npm/
 
 # OS / editor
 .DS_Store
