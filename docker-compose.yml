@@ -1,0 +1,46 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: velsys-portainer
+    restart: unless-stopped
+    ports:
+      - "${PORTAINER_PORT:-9994}:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer/data:/data
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: velsys-mosquitto
+    restart: unless-stopped
+    ports:
+      - "${MOSQUITTO_PORT:-1883}:1883"
+      - "${MOSQUITTO_TLS_PORT:-8883}:8883"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  node-red:
+    image: nodered/node-red:latest
+    container_name: velsys-node-red
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-America/Mexico_City}
+    ports:
+      - "${NODE_RED_PORT:-1880}:1880"
+    volumes:
+      - ./node-red/data:/data
+    depends_on:
+      - mosquitto
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: velsys-grafana
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-America/Mexico_City}
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana

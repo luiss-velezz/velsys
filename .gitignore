@@ -1,0 +1,29 @@
+# Secrets
+.env
+.env.*
+!.env.example
+mosquitto/secrets/
+node-red/secrets/
+
+# Runtime volumes
+volumes/
+
+# Legacy runtime folders
+grafana/data/
+mosquitto/data/
+mosquitto/log/
+node-red/data/
+portainer/data/
+
+# Common generated files
+*.log
+*.db
+*.sqlite
+
+# Node-RED credentials
+node-red/project/flows_cred.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
